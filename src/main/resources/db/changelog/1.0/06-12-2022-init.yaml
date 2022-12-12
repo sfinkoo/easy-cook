@@ -1,0 +1,124 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_users_table
+      author: me
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+
+              - column:
+                  name: username
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: password
+                  type: char(8)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: create_tag_table
+      author: me
+      changes:
+        - createTable:
+            tableName: tag
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: create_recipe_table
+      author: me
+      changes:
+        - createTable:
+            tableName: recipe
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                   foreignKeyName: user_recipe
+                   references: users(id)
+                   nullable: false
+
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                   nullable: false
+
+              - column:
+                 name: description
+                 type: varchar(255)
+                 constraints:
+                    nullable: false
+
+              - column:
+                 name: created
+                 type: timestamp
+                 constraints:
+                   nullable: false
+
+              - column:
+                 name: kilocalorie
+                 type: numeric
+
+              - column:
+                 name: protein
+                 type: numeric
+
+              - column:
+                 name: fat
+                 type: numeric
+
+              - column:
+                 name: carbon
+                 type: numeric
+  - changeSet:
+      id: update_tag_recipe_table
+      author: me
+      changes:
+          - createTable:
+              tableName: tag_recipe
+              columns:
+              - column:
+                 name: recipe_id
+                 type: bigint
+                 constraints:
+                  foreignKeyName: recipe_tag
+                  references: recipe(id)
+                  nullable: false
+
+              - column:
+                 name: tag_id
+                 type: bigint
+                 constraints:
+                  foreignKeyName: tag_recipe
+                  references: tag(id)
+                  nullable: false
