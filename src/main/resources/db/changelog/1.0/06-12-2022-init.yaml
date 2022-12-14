@@ -86,7 +86,7 @@ databaseChangeLog:
                    nullable: false
 
               - column:
-                 name: kilocalorie
+                 name: kcals
                  type: numeric
 
               - column:
