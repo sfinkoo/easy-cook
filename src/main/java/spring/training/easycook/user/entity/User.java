@@ -1,16 +1,9 @@
 package spring.training.easycook.user.entity;
 
-import jdk.jfr.BooleanFlag;
 import lombok.*;
-import org.springframework.stereotype.Service;
 import spring.training.easycook.recipe.entity.Recipe;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
 import java.util.Set;
 
 @Getter

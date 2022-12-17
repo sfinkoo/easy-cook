@@ -3,9 +3,8 @@ package spring.training.easycook.user.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
+import org.xml.sax.SAXException;
 import spring.training.easycook.exception.ResourceException;
 import spring.training.easycook.user.dto.CreateUserRequest;
 import spring.training.easycook.user.entity.User;
@@ -27,10 +26,10 @@ public class UserService {
         this.conversionService = conversionService;
     }
 
-    public String create(CreateUserRequest request) {
+    public User create(CreateUserRequest request) {
         User user = conversionService.convert(request, User.class);
         userRepository.save(user);
-        return String.format("Вы зарегистрированы, ваш id - %s", user.getId());
+        return user;
     }
 
     public String update(Long id, CreateUserRequest request) {
@@ -44,6 +43,18 @@ public class UserService {
     }
 
     public List<User> getAll() {
-        return userRepository.findAll();
+        List<User> users = userRepository.findAll();
+        if (users.isEmpty()) {
+            throw new ResourceException(HttpStatus.OK, "Список пользователей пока пуст.");
+        }
+        return users;
+    }
+
+    public User getById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            throw new ResourceException(HttpStatus.NOT_FOUND, "Пользователь с таким id не найден.");
+        }
+        return user.get();
     }
 }

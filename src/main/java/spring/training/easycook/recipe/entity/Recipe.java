@@ -1,8 +1,6 @@
 package spring.training.easycook.recipe.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import spring.training.easycook.tag.entity.Tag;
 import spring.training.easycook.user.entity.User;
 
@@ -13,8 +11,10 @@ import java.util.Set;
 @Entity
 @Table(name = "recipe")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Recipe {
 
     @Id

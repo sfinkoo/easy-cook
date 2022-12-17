@@ -4,10 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import spring.training.easycook.exception.ResourceException;
+import spring.training.easycook.exception.ValidationException;
+import spring.training.easycook.tag.ValueTypeForTagSearch;
 import spring.training.easycook.tag.entity.Tag;
 import spring.training.easycook.tag.repository.TagRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -27,9 +30,6 @@ public class TagService {
 
     public String changeNameTagsById(Long id, String newName) {
         Tag tag = findTagById(id);
-        if (tag == null) {
-            throw new ResourceException(HttpStatus.NOT_FOUND, "Тэг с таким id не найден.");
-        }
         tag.setName(newName);
         tagRepository.save(tag);
         log.info("Тэг успешно обновлен.");
@@ -38,9 +38,6 @@ public class TagService {
 
     public String changeNameTagsByName(String oldName, String newName) {
         Tag tag = findTagByName(oldName);
-        if (tag == null) {
-            throw new ResourceException(HttpStatus.NOT_FOUND, "Тэг с таким id не найден.");
-        }
         tag.setName(newName);
         tagRepository.save(tag);
         log.info("Тэг успешно обновлен.");
@@ -54,39 +51,61 @@ public class TagService {
         return tagRepository.findAll();
     }
 
-    public String deleteTagByName(String name) {
-        Tag tag = findTagByName(name);
-        if (tag == null) {
-            log.info("Тэг с таким name не найден.");
-            throw new ResourceException(HttpStatus.NOT_FOUND, "Тэг с таким name не найден.");
-        }
+    public String delete(ValueTypeForTagSearch type, String value) {
+        Tag tag = findTagByType(type, value);
         tagRepository.deleteById(tag.getId());
         log.info("Тэг успешно удален.");
         return "Тэг успешно удален.";
     }
 
-    public String deleteTagById(Long id) {
-        Tag tag = findTagById(id);
-        if (tag == null) {
-            log.info("Тэг с таким id не найден.");
-            throw new ResourceException(HttpStatus.NOT_FOUND, "Тэг с таким name не найден.");
-        }
-        tagRepository.deleteById(id);
-        log.info("Тэг успешно удален.");
-        return "Тэг успешно удален.";
-    }
-
-    private Tag findTagByName(String name) {
-        return tagRepository.findAll()
+    public Tag findTagByName(String name) {
+        Optional<Tag> foundTag = tagRepository.findAll()
                 .stream()
                 .filter(tag -> tag.getName().equals(name))
-                .toList().get(0);
+                .findFirst();
+        if (foundTag.isEmpty()) {
+            throw new ResourceException(HttpStatus.NOT_FOUND, "Тэг с таким name не найден.");
+        }
+        return foundTag.get();
     }
 
-    private Tag findTagById(Long id) {
-        return tagRepository.findAll()
-                .stream()
-                .filter(tag -> tag.getId().equals(id))
-                .toList().get(0);
+    public Tag findTagById(Long id) {
+        Optional<Tag> tag = tagRepository.findById(id);
+        if (tag.isEmpty()) {
+            throw new ResourceException(HttpStatus.NOT_FOUND, "Тэг с таким id не найден.");
+        }
+        return tag.get();
+    }
+
+    private Tag findTagByType(ValueTypeForTagSearch type, String value) {
+        Tag tag;
+        if (type.equals(ValueTypeForTagSearch.NAME)) {
+            tag = findTagByName(value);
+        } else if (type.equals(ValueTypeForTagSearch.ID)) {
+            tag = findTagById(Long.parseLong(value));
+        } else {
+            throw new ResourceException(HttpStatus.NOT_FOUND, "Некорректный тип значения.");
+        }
+
+        if (tag != null) {
+            return tag;
+        } else {
+            throw new ResourceException(HttpStatus.NOT_FOUND, String.format("Тэг с таким %s не найден.", type));
+        }
+    }
+
+    public Tag findTag(ValueTypeForTagSearch type, String value) {
+        return findTagByType(type, value);
+    }
+
+    public String changeName(ValueTypeForTagSearch type, String value, String newName) throws ValidationException {
+        Tag tag;
+        if (newName != null && newName.length() >=1 && newName.length() < 100) {
+            tag = findTag(type, value);
+            tag.setName(newName);
+        } else {
+            throw new ValidationException("Проверьте данные и повторите запрос.");
+        }
+        return "Имя тега успешно обновлено.";
     }
 }

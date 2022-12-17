@@ -13,7 +13,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tag")
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter

@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -14,7 +12,7 @@ import javax.validation.constraints.NotNull;
 public class CreateUserRequest {
 
     @NotNull
-    @NotBlank(message = "Имя пользователя не должно содержать пробел.")
+    @NotBlank(message = "Имя пользователя не может состоять из пробелов.")
     @Length(min = 1, max = 50, message = "Имя пользователя может иметь от 1 до 50 символов.")
     private String username;
 

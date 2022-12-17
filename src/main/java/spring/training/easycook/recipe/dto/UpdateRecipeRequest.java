@@ -4,15 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
-import spring.training.easycook.user.entity.User;
+import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
-public class CreateRecipeRequest {
+@AllArgsConstructor
+public class UpdateRecipeRequest {
 
     @NotNull
     @NotBlank(message = "Название рецепта не может состоять из пробелов.")
@@ -22,16 +23,11 @@ public class CreateRecipeRequest {
     @NotNull
     @NotBlank(message = "Описание с пошаговым приготовлением блюда не может состоять из пробелов.")
     @Length(min = 1, max = 255, message = "Описание с пошаговым приготовлением блюда может иметь от 1 до 255 символов.")
-    private String description;
-
-    private LocalDateTime created;
+    private String descrtiption;
 
     private Float kcals;
-
     private Float protein;
-
     private Float fat;
-
     private Float carbon;
-
+    private Set<FieldName> updateMask;
 }

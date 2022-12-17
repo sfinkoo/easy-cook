@@ -30,10 +30,10 @@ public class ErrorHandler {
         return new ErrorResponse(resourceException.getMessage());
     }
 
-    @ExceptionHandler()
+/*    @ExceptionHandler()
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleHappinessOverflow(Throwable throwable) {
         log.debug("Непредвиденная ошибка.");
         return new ErrorResponse("Произошла непредвиденная ошибка.");
-    }
+    }*/
 }
