@@ -63,62 +63,62 @@ databaseChangeLog:
                   name: user_id
                   type: bigint
                   constraints:
-                   foreignKeyName: user_recipe
-                   references: users(id)
-                   nullable: false
+                    foreignKeyName: user_recipe
+                    references: users(id)
+                    nullable: false
 
               - column:
                   name: name
                   type: varchar(100)
                   constraints:
-                   nullable: false
-
-              - column:
-                 name: description
-                 type: varchar(255)
-                 constraints:
                     nullable: false
 
               - column:
-                 name: created
-                 type: timestamp
-                 constraints:
-                   nullable: false
+                  name: description
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
 
               - column:
-                 name: kcals
-                 type: numeric
+                  name: created
+                  type: timestamp
+                  constraints:
+                    nullable: false
 
               - column:
-                 name: protein
-                 type: numeric
+                  name: kcals
+                  type: numeric
 
               - column:
-                 name: fat
-                 type: numeric
+                  name: protein
+                  type: numeric
 
               - column:
-                 name: carbon
-                 type: numeric
+                  name: fat
+                  type: numeric
+
+              - column:
+                  name: carbon
+                  type: numeric
   - changeSet:
       id: update_tag_recipe_table
       author: me
       changes:
-          - createTable:
-              tableName: tag_recipe
-              columns:
+        - createTable:
+            tableName: tag_recipe
+            columns:
               - column:
-                 name: recipe_id
-                 type: bigint
-                 constraints:
-                  foreignKeyName: recipe_tag
-                  references: recipe(id)
-                  nullable: false
+                  name: recipe_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: recipe_tag
+                    references: recipe(id)
+                    nullable: false
 
               - column:
-                 name: tag_id
-                 type: bigint
-                 constraints:
-                  foreignKeyName: tag_recipe
-                  references: tag(id)
-                  nullable: false
+                  name: tag_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: tag_recipe
+                    references: tag(id)
+                    nullable: false
