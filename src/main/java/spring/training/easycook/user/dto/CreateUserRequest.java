@@ -17,7 +17,7 @@ public class CreateUserRequest {
     private String username;
 
     @NotNull
-    @Length(min = 1, max = 8, message = "Пароль может иметь от 1 до 8 символов.")
+    @Length(min = 6, max = 50, message = "Пароль может иметь от 6 до 50 символов.")
     @NotBlank(message = "Пароль не должен содержать пробел.")
     private String password;
 }

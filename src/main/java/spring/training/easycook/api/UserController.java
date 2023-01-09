@@ -9,7 +9,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserController {
 
     private final UserService userService;
@@ -18,7 +18,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public User create(@Valid @RequestBody CreateUserRequest request) {
         return userService.create(request);
     }

@@ -3,8 +3,8 @@ package spring.training.easycook.user.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.xml.sax.SAXException;
 import spring.training.easycook.exception.ResourceException;
 import spring.training.easycook.user.dto.CreateUserRequest;
 import spring.training.easycook.user.entity.User;
@@ -18,16 +18,20 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     private final ConversionService conversionService;
 
     public UserService(UserRepository userRepository,
+                       PasswordEncoder passwordEncoder,
                        ConversionService conversionService) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
         this.conversionService = conversionService;
     }
 
     public User create(CreateUserRequest request) {
         User user = conversionService.convert(request, User.class);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return user;
     }
