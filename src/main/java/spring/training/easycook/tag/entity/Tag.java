@@ -23,6 +23,7 @@ public class Tag {
     private Long id;
 
     @Column(name = "name", unique = true)
+    //todo move to dto layer
     @NotNull
     @Length(min = 1, max = 100, message = "Тэг может содержать от 1 до 100 символов.")
     private String name;
