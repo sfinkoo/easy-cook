@@ -46,7 +46,7 @@ public class Recipe {
     @Column(name = "carbon")
     private Float carbon;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(name = "tag_recipe",
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))

@@ -21,9 +21,11 @@ databaseChangeLog:
 
               - column:
                   name: password
-                  type: char(8)
+                  type: varchar(50)
                   constraints:
                     nullable: false
+        - sql:
+            sql: CREATE UNIQUE INDEX users_username_uind ON users (username);
 
   - changeSet:
       id: create_tag_table
@@ -45,6 +47,22 @@ databaseChangeLog:
                   constraints:
                     nullable: false
 
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_tag_users
+                    references: users(id)
+                    nullable: false
+
+        - addUniqueConstraint:
+            tableName: tag
+            columnNames: name, user_id
+            constraintName: tag_name_user_id_u
+
+        - sql:
+            sql: CREATE INDEX tag_name_ind ON tag USING HASH (name);
+
   - changeSet:
       id: create_recipe_table
       author: me
@@ -63,7 +81,7 @@ databaseChangeLog:
                   name: user_id
                   type: bigint
                   constraints:
-                    foreignKeyName: user_recipe
+                    foreignKeyName: fk_recipe_users
                     references: users(id)
                     nullable: false
 
@@ -100,8 +118,23 @@ databaseChangeLog:
               - column:
                   name: carbon
                   type: numeric
+
+        - addUniqueConstraint:
+            tableName: recipe
+            columnNames: name, user_id
+            constraintName: recipe_name_user_id_u
+
+        - sql:
+            sql: CREATE INDEX recipe_name_ind  ON recipe USING HASH (name);
+        - sql:
+            sql: CREATE INDEX recipe_created_ind ON recipe (created);
+        - sql:
+            sql: CREATE INDEX recipe_kcals_ind ON recipe (kcals);
+        - sql:
+            sql: CREATE INDEX recipe_fat_carbon_protein_ind ON recipe (fat, carbon, protein);
+
   - changeSet:
-      id: update_tag_recipe_table
+      id: create_tag_recipe_table
       author: me
       changes:
         - createTable:
@@ -111,7 +144,7 @@ databaseChangeLog:
                   name: recipe_id
                   type: bigint
                   constraints:
-                    foreignKeyName: recipe_tag
+                    foreignKeyName: fk_tag_recipe_recipe
                     references: recipe(id)
                     nullable: false
 
@@ -119,6 +152,11 @@ databaseChangeLog:
                   name: tag_id
                   type: bigint
                   constraints:
-                    foreignKeyName: tag_recipe
+                    foreignKeyName: fk_tag_recipe_tag
                     references: tag(id)
                     nullable: false
+
+        - addPrimaryKey:
+            tableName: tag_recipe
+            columnNames: recipe_id, tag_id
+            constraintName: pk_tag_recipe

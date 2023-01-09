@@ -2,6 +2,7 @@ package spring.training.easycook.user.entity;
 
 import lombok.*;
 import spring.training.easycook.recipe.entity.Recipe;
+import spring.training.easycook.tag.entity.Tag;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -27,4 +28,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private Set<Recipe> recipes;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Tag> tags;
 }
