@@ -1,4 +1,4 @@
-package spring.training.easycook;
+package spring.training.easycook.recipe.service;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

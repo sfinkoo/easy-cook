@@ -1,7 +1,7 @@
 package spring.training.easycook.api;
 
 import org.springframework.web.bind.annotation.*;
-import spring.training.easycook.RecipeAndTagService;
+import spring.training.easycook.recipe.service.RecipeAndTagService;
 import spring.training.easycook.tag.ValueTypeForTagSearch;
 import spring.training.easycook.tag.entity.Tag;
 
