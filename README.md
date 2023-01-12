@@ -30,3 +30,6 @@
 ## Структура Базы Данных
 
 ![](database-structure.png)
+
+### :)
+![](chief.jpeg)
