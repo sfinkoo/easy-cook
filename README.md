@@ -1,12 +1,15 @@
 # easy-cook
 Проект c CRUD функционалом, выполненный для отработки знаний по изученным технологиям. 👨‍🍳
 
+### open-api
+[link](open-api.json)
+
 ### Технологии:
 1. Java
-2. Spring Framework 
+2. Spring Framework
    * Boot
-   * Web 
-   * Data JPA 
+   * Web
+   * Data JPA
    * Security
 3. Hibernate
 4. Liquibase
